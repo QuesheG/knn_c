@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "quicksort.h"
 
 int partition(double * A, int lo, int hi){
     double pivot = A[hi];

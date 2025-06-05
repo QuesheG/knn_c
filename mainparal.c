@@ -2,7 +2,7 @@
 #include <stdio.h>
 #include <time.h>
 #include <omp.h>
-#include "./utils.c"
+#include "utils.h"
 
 #define NUM_THREADS 6
 
@@ -48,10 +48,10 @@ int main(int argc, char *argv[])
     }
     else if (argc > 4)
     {
-        printf("Uso incorreto!\n\
-                Quantidade de argumentos esperados seria menor a 4.\n\
+        printf("Wrong usage!\n\
+                Expected less than 4 arguments.\n\
                 %s %s %s %s\n\
-                Entrada de arquivo esperada depois do inicio do programa\n",
+                File input expected in execution\n",
                 argv[0], argv[1], argv[2], argv[3]);
         return 1;
     }
@@ -64,9 +64,9 @@ int main(int argc, char *argv[])
     double *ytrain = def_y(xtrain_data, line_count_train, w, h);
     double **xtrain_matrix = gen_matrix(xtrain_data, strain, w);
 
-    genyfile("output/dados_ytrain.txt", ytrain, strain);
+    genyfile("output/ytrain_data.txt", ytrain, strain);
 
-    printf("Entre agora com o nome do arquivo a ser predizido: (somente o nome)\n");
+    printf("Input filename to be predicted: (name only)\n");
     char arquivo[32];
     scanf("%s", arquivo);
     printf("\n");
@@ -83,13 +83,13 @@ int main(int argc, char *argv[])
     ytest = def_y(xtest_data, line_count_test, w, h);
     xtest_matrix = gen_matrix(xtest_data, stest, w);
 
-    genyfile("output/dados_ytest.txt", ytest, stest);
+    genyfile("output/ytest_data.txt", ytest, stest);
 
     double start = omp_get_wtime();
     double *result = knn(xtrain_matrix, ytrain, xtest_matrix, ytest, strain, stest, k, w);
-    printf("Tempo paralelo: %lf\n", omp_get_wtime() - start);
+    printf("Parallelized time: %lf\n", omp_get_wtime() - start);
     
-    FILE *expecfile = fopen("output/dados_predizidos.txt", "w");
+    FILE *expecfile = fopen("output/predicted_data.txt", "w");
     for(int i = 0; i < stest; i++) {
         fprintf(expecfile, "%lf\n", result[i]);
     }

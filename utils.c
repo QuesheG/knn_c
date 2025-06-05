@@ -1,7 +1,8 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include "quicksort.c"
+#include "quicksort.h"
+#include "utils.h"
 
 double * file2arr(char *s, int * line_count) {
     FILE *f = fopen(s, "r");
